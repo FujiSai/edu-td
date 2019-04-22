@@ -107,7 +107,7 @@ Trong trường hợp xấu nhất, khóa mới được chèn không chia sẻ 
 
 TrieNode current <span class="token operator">=</span> root
 <span class="token keyword">for</span> every char <span class="token keyword">in</span> prefix<span class="token punctuation">:</span>
-    <span class="token keyword">if</span> char <span class="token keyword">in</span> p<span class="token punctuation">.</span>children<span class="token punctuation">:</span>
+    <span class="token keyword">if</span> char <span class="token keyword">in</span> current<span class="token punctuation">.</span>children<span class="token punctuation">:</span>
         current <span class="token operator">=</span> current<span class="token punctuation">.</span>children<span class="token punctuation">[</span>char<span class="token punctuation">]</span>
     <span class="token keyword">else</span><span class="token punctuation">:</span>
         <span class="token keyword">return</span> <span class="token keyword">null</span>
@@ -515,15 +515,15 @@ bool <span class="token function">openFile</span><span class="token punctuation"
             </a>
             <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
                 <div class="toc"><ul class="nav">
-<li class=""><a href="#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố" title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
+<li><a href="#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố" title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
 <li><a href="#1-Giới-thiệu-bài-toán" title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a></li>
-<li><a href="#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố" title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class="nav">
+<li class=""><a href="#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố" title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class="nav">
 <li><a href="#21-Một-số-thuật-ngữ-quan-trọng" title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a></li>
 <li><a href="#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm" title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a></li>
 <li><a href="#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree" title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a></li>
-<li><a href="#24-XÂY-DỰNG-THUẬT-TOÁN" title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class="nav">
+<li class=""><a href="#24-XÂY-DỰNG-THUẬT-TOÁN" title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class="nav">
 <li><a href="#241-Thêm-từ-vào-trong-Trie" title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a></li>
-<li><a href="#242-Tìm-kiếm-tiền-tố" title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
+<li class=""><a href="#242-Tìm-kiếm-tiền-tố" title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
 <li><a href="#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete" title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></li>
 </ul>
 </li>
@@ -543,27 +543,27 @@ bool <span class="token function">openFile</span><span class="token punctuation"
     </div>
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
         <div class="toc"><ul class="nav">
-<li class=""><a href="#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố" title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
+<li><a href="#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố" title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
 <li><a href="#1-Giới-thiệu-bài-toán" title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a></li>
-<li><a href="#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố" title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class="nav">
+<li class=""><a href="#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố" title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class="nav">
 <li><a href="#21-Một-số-thuật-ngữ-quan-trọng" title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a></li>
 <li><a href="#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm" title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a></li>
 <li><a href="#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree" title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a></li>
-<li><a href="#24-XÂY-DỰNG-THUẬT-TOÁN" title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class="nav">
+<li class=""><a href="#24-XÂY-DỰNG-THUẬT-TOÁN" title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class="nav">
 <li><a href="#241-Thêm-từ-vào-trong-Trie" title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a></li>
-<li><a href="#242-Tìm-kiếm-tiền-tố" title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
+<li class=""><a href="#242-Tìm-kiếm-tiền-tố" title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
 <li><a href="#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete" title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></li>
 </ul>
 </li>
 <li><a href="#25-Cài-đặt-chương-trình" title="2.5.	Cài đặt chương trình">2.5.	Cài đặt chương trình</a></li>
 </ul>
 </li>
-<li class=""><a href="#3-Một-số-đề-xuất-cải-tiến" title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class="nav">
-<li class=""><a href="#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút" title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a></li>
-<li class=""><a href="#32-Tối-ưu-số-đề-xuất" title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></li>
+<li><a href="#3-Một-số-đề-xuất-cải-tiến" title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class="nav">
+<li><a href="#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút" title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a></li>
+<li><a href="#32-Tối-ưu-số-đề-xuất" title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></li>
 </ul>
 </li>
-<li class=""><a href="#-PHỤ-LỤC" title=" PHỤ LỤC"> PHỤ LỤC</a></li>
+<li><a href="#-PHỤ-LỤC" title=" PHỤ LỤC"> PHỤ LỤC</a></li>
 </ul>
 </div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
