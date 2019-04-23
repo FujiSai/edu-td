@@ -1,86 +1,24 @@
-<!DOCTYPE html>
-<html lang=en>
-<head>
-<meta charset=utf-8>
-<meta content="IE=edge"http-equiv=X-UA-Compatible>
-<meta content="width=device-width,initial-scale=1,user-scalable=no"name=viewport>
-<meta content=yes name=apple-mobile-web-app-capable>
-<meta content=black name=apple-mobile-web-app-status-bar-style>
-<meta content=yes name=mobile-web-app-capable>
-<title>
-AutoComplete with Trie
-</title>
-<link href=https://i.imgur.com/X8NK63Q.png rel=icon type=image/png>
-<link href=https://i.imgur.com/W3Ei7ZE.png rel=apple-touch-icon>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="/>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="/>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo="/>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg="/>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg="/>
-<link href=https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU="/>
-<style>@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:0 0;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:0}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:0!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}</style>
-<!--[if lt IE 9]>
-<script crossorigin=anonymous integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g="src=https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js></script>
-<script crossorigin=anonymous integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE="src=https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js></script>
-<script crossorigin=anonymous integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo="src=https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js></script>
-<![endif]-->
-</head>
-<body>
-<div class="comment-enabled container-fluid markdown-body"style=position:relative id=doc><h1 id=Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title=Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố class="anchor hidden-xs"></a>Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</h1><blockquote style=border-left-color:#907bf7>
-<p><small> Đỗ Hồng Quân – DCNTT2017 – ID: 217401042  Tue, April 23, 2019</small> </p>
-</blockquote><p><strong>Abstract:</strong> Tính năng tự động hoàn thành – <code>AutoComplete</code> là một tính năng hết sức quan trọng, hầu như hiện nay có mặt trong mọi hệ thống thông tin hiện đại. Có nhiều phương pháp khác nhau để xây dựng một bộ autocomplete. Từ áp dụng các thuật toán khác nhau, các phương pháp học máy, đến phân tích ngữ cảnh, tự sửa lỗi (auto correction) để tối ưu dữ liệu hiển thị về phía người dùng. Bài luận này giới hạn AutoComplete ở mức gợi ý tự động hoàn thành những chữ cái có thể xuất hiện tiếp theo của từ đang gõ. Bài luận sẽ tập trung tìm hiểu về cấu trúc dữ liệu cây tiền tố <code>Trie</code> (hay <code>Prefix Tree</code>) – đây là một phương pháp đơn giản nhưng đạt được được hiệu quả khá tốt cho bài toán AutoComplete và áp dụng để xây dựng chương trình gợi ý tự động hoàn thành cho tìm kiếm từ vựng tiếng anh.<div class="alert alert-success">
-<p><strong>Keywords:</strong> AutoComplete, Trie, Prefix Tree</p>
-</div><h1 id=1-Giới-thiệu-bài-toán><a href=#1-Giới-thiệu-bài-toán title=1-Giới-thiệu-bài-toán class="anchor hidden-xs"></a>1. Giới thiệu bài toán</h1><p><strong>Tự động hoàn thành</strong> - <code>AutoComplete</code> là một thuật ngữ đang khá “hot” hiện nay, có thể nhìn thấy ở hầu như bất cứ nơi nào (hình 1). Hàng ngày, mỗi người trong chúng ta đều sử dụng <strong>Google</strong> để tìm kiếm thông tin, và khi chúng ta gõ bất kì từ khóa nào, thì Google sẽ tự động liệt kê danh sách những cụm từ có nghĩa tương đồng với từ khóa đó ở bên dưới. Đó chính là AutoComplete. Đối với các doanh nghiệp kinh doanh trên mạng, gợi ý từ khóa hoàn chỉnh ngay khi người dùng chưa gõ hết có ý nghĩa rất lớn đối với cả khách hàng, lẫn doanh nghiệp. Việc xuất hiện ngay kết quả khi khách hàng chưa hoàn tất từ khóa và hiển thị cả những sản phẩm liên quan tiềm năng, kích thích khách hàng quan tâm nhiều hơn về sản phẩm và đưa ra quyết định mua hàng nhanh hơn. Ngoài ra, chức năng AutoComplete cũng gợi ý cho các khung tra từ điển, danh bạ làm tăng tốc độ tìm kiếm, soạn thảo cho người sử dụng, hay đôi khi là chỉnh sửa chính tả.</p><center>
-<img src=https://i.imgur.com/vxbSCCr.jpg>
-<p><em>Hình 1. Gợi ý tự động hoàn thành trên ứng dụng nhắn tin và các tác vụ tìm kiếm</em></p>
-</center><p>Tuy nhiên, AutoComplete là một khái niệm rất rộng. Có nhiều phương pháp khác nhau để xây dựng một bộ autocomplete. Từ áp dụng các thuật toán khác nhau, các phương pháp học máy, đến phân tích ngữ cảnh, tự sửa lỗi (auto correction) để tối ưu dữ liệu hiển thị về phía người dùng. <strong>Bài luận này giới hạn AutoComplete ở mức gợi ý tự động hoàn thành những chữ cái có thể xuất hiện tiếp theo của từ đang gõ</strong> (hình 2). Bài luận tập trung tìm hiểu về cấu trúc dữ liệu cây tiền tố – Trie (hay Prefix Tree) – đây là phương pháp đơn giản nhưng đạt được được hiệu quả khá tốt cho bài toán AutoComplete. Ứng dụng tìm kiếm được xây dựng trên <code>tập dữ liệu từ vựng tiếng anh</code> bao gồm trên 370.000 từ.</p><center>
-<img src=https://i.imgur.com/iqcJ2qm.jpg>
-<p><em>Hình 2. Đưa vào một tiền tố, một công cụ tự động đề xuất tạo ra một danh sách hoàn thành</em></p>
-</center><h1 id=2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title=2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố class="anchor hidden-xs"></a>2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</h1><h2 id=21-Một-số-thuật-ngữ-quan-trọng><a href=#21-Một-số-thuật-ngữ-quan-trọng title=21-Một-số-thuật-ngữ-quan-trọng class="anchor hidden-xs"></a>2.1.	Một số thuật ngữ quan trọng</h2><ul>
-<li>Tiền tố (Prefix): những gì người dùng đã gõ cho đến nay</li>
-<li>Hoàn thành (Completions): tất cả các từ hoặc cụm từ được tạo thành từ một tiền tố nhất định.</li>
-<li>Đề xuất (Suggestion): các hoàn thành được xếp hạng hàng đầu sẽ được trình bày cho người dùng.</li>
-<li>Lựa chọn (Selection): đề xuất mà người dùng chọn hoặc hoàn thành mới mà người dùng gửi</li>
-</ul><center>
-<img src=https://i.imgur.com/4uHOt08.jpg>
-<p><em>Hình 3. Một số thuật ngữ được sử dụng trong tính năng AutoComplete - <code>Nguồn: Medium: @prefixyteam, 2018</code></em></p>
-</center><h2 id=22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title=22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm class="anchor hidden-xs"></a>2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</h2><p>Đây là một phương pháp đơn giản nhất tìm kiếm bằng cách duyệt qua mọi trường hợp có thể và kiểm tra. Gọi <code>P</code> là tập từ vựng ta có, với mỗi chuỗi tìm kiếm <code>text</code> đưa ra, ta chỉ việc duyệt lần lượt từng từ <code>word</code> trong P, rồi với mỗi từ đó, ta kiểm tra <code>text</code> có phải tiền tố của chuỗi <code>word</code> không.<pre><code class="hljs javascript">Pseudocode<span class="token punctuation">:</span> <span class="token function">bfFind</span> <span class="token punctuation">(</span>text<span class="token punctuation">,</span> <span class="token constant">P</span><span class="token punctuation">)</span>
+<!DOCTYPE html><html lang=en><meta charset=utf-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1,user-scalable=no"name=viewport><meta content=yes name=apple-mobile-web-app-capable><meta content=black name=apple-mobile-web-app-status-bar-style><meta content=yes name=mobile-web-app-capable><title>AutoComplete with Trie</title><link href=https://i.imgur.com/X8NK63Q.png rel=icon type=image/png><link href=https://i.imgur.com/W3Ei7ZE.png rel=apple-touch-icon><link href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w="><link href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="><link href=https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo="><link href=https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg="><link href=https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg="><link href=https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css rel=stylesheet crossorigin=anonymous integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU="><style>@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:0 0;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:0}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child>ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:0!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}</style><!--[if lt IE 9]><script crossorigin=anonymous integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g="src=https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js></script><script crossorigin=anonymous integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE="src=https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js></script><script crossorigin=anonymous integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo="src=https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js></script><![endif]--><div class="comment-enabled container-fluid markdown-body"style=position:relative id=doc><h1 id=Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title=Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</h1><blockquote style=border-left-color:#907bf7><p><small><i class="fa fa-user"></i> Đỗ Hồng Quân – DCNTT2017 – ID: 217401042 <i class="fa fa-clock-o"></i> Tue, April 23, 2019</small> <span class=color data-color=#907bf7></span></blockquote><p><strong>Abstract:</strong> Tính năng tự động hoàn thành – <code>AutoComplete</code> là một tính năng hết sức quan trọng, hầu như hiện nay có mặt trong mọi hệ thống thông tin hiện đại. Có nhiều phương pháp khác nhau để xây dựng một bộ autocomplete. Từ áp dụng các thuật toán khác nhau, các phương pháp học máy, đến phân tích ngữ cảnh, tự sửa lỗi (auto correction) để tối ưu dữ liệu hiển thị về phía người dùng. Bài luận này giới hạn AutoComplete ở mức gợi ý tự động hoàn thành những chữ cái có thể xuất hiện tiếp theo của từ đang gõ. Bài luận sẽ tập trung tìm hiểu về cấu trúc dữ liệu cây tiền tố <code>Trie</code> (hay <code>Prefix Tree</code>) – đây là một phương pháp đơn giản nhưng đạt được được hiệu quả khá tốt cho bài toán AutoComplete và áp dụng để xây dựng chương trình gợi ý tự động hoàn thành cho tìm kiếm từ vựng tiếng anh.<div class="alert alert-success"><p><strong>Keywords:</strong> AutoComplete, Trie, Prefix Tree</div><h1 id=1-Giới-thiệu-bài-toán><a href=#1-Giới-thiệu-bài-toán title=1-Giới-thiệu-bài-toán class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>1. Giới thiệu bài toán</h1><p><strong>Tự động hoàn thành</strong> - <code>AutoComplete</code> là một thuật ngữ đang khá “hot” hiện nay, có thể nhìn thấy ở hầu như bất cứ nơi nào (hình 1). Hàng ngày, mỗi người trong chúng ta đều sử dụng <strong>Google</strong> để tìm kiếm thông tin, và khi chúng ta gõ bất kì từ khóa nào, thì Google sẽ tự động liệt kê danh sách những cụm từ có nghĩa tương đồng với từ khóa đó ở bên dưới. Đó chính là AutoComplete. Đối với các doanh nghiệp kinh doanh trên mạng, gợi ý từ khóa hoàn chỉnh ngay khi người dùng chưa gõ hết có ý nghĩa rất lớn đối với cả khách hàng, lẫn doanh nghiệp. Việc xuất hiện ngay kết quả khi khách hàng chưa hoàn tất từ khóa và hiển thị cả những sản phẩm liên quan tiềm năng, kích thích khách hàng quan tâm nhiều hơn về sản phẩm và đưa ra quyết định mua hàng nhanh hơn. Ngoài ra, chức năng AutoComplete cũng gợi ý cho các khung tra từ điển, danh bạ làm tăng tốc độ tìm kiếm, soạn thảo cho người sử dụng, hay đôi khi là chỉnh sửa chính tả.</p><center><img src=https://i.imgur.com/vxbSCCr.jpg><p><em>Hình 1. Gợi ý tự động hoàn thành trên ứng dụng nhắn tin và các tác vụ tìm kiếm</em></center><p>Tuy nhiên, AutoComplete là một khái niệm rất rộng. Có nhiều phương pháp khác nhau để xây dựng một bộ autocomplete. Từ áp dụng các thuật toán khác nhau, các phương pháp học máy, đến phân tích ngữ cảnh, tự sửa lỗi (auto correction) để tối ưu dữ liệu hiển thị về phía người dùng. <strong>Bài luận này giới hạn AutoComplete ở mức gợi ý tự động hoàn thành những chữ cái có thể xuất hiện tiếp theo của từ đang gõ</strong> (hình 2). Bài luận tập trung tìm hiểu về cấu trúc dữ liệu cây tiền tố – Trie (hay Prefix Tree) – đây là phương pháp đơn giản nhưng đạt được được hiệu quả khá tốt cho bài toán AutoComplete. Ứng dụng tìm kiếm được xây dựng trên <code>tập dữ liệu từ vựng tiếng anh</code> bao gồm trên 370.000 từ.</p><center><img src=https://i.imgur.com/iqcJ2qm.jpg><p><em>Hình 2. Đưa vào một tiền tố, một công cụ tự động đề xuất tạo ra một danh sách hoàn thành</em></center><h1 id=2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title=2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</h1><h2 id=21-Một-số-thuật-ngữ-quan-trọng><a href=#21-Một-số-thuật-ngữ-quan-trọng title=21-Một-số-thuật-ngữ-quan-trọng class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.1.	Một số thuật ngữ quan trọng</h2><ul><li>Tiền tố (Prefix): những gì người dùng đã gõ cho đến nay<li>Hoàn thành (Completions): tất cả các từ hoặc cụm từ được tạo thành từ một tiền tố nhất định.<li>Đề xuất (Suggestion): các hoàn thành được xếp hạng hàng đầu sẽ được trình bày cho người dùng.<li>Lựa chọn (Selection): đề xuất mà người dùng chọn hoặc hoàn thành mới mà người dùng gửi</ul><center><img src=https://i.imgur.com/4uHOt08.jpg><p><em>Hình 3. Một số thuật ngữ được sử dụng trong tính năng AutoComplete - <code>Nguồn: Medium: @prefixyteam, 2018</code></em></center><h2 id=22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title=22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</h2><p>Đây là một phương pháp đơn giản nhất tìm kiếm bằng cách duyệt qua mọi trường hợp có thể và kiểm tra. Gọi <code>P</code> là tập từ vựng ta có, với mỗi chuỗi tìm kiếm <code>text</code> đưa ra, ta chỉ việc duyệt lần lượt từng từ <code>word</code> trong P, rồi với mỗi từ đó, ta kiểm tra <code>text</code> có phải tiền tố của chuỗi <code>word</code> không.<pre><code class="hljs javascript">Pseudocode<span class="token punctuation">:</span> <span class="token function">bfFind</span> <span class="token punctuation">(</span>text<span class="token punctuation">,</span> <span class="token constant">P</span><span class="token punctuation">)</span>
 
 ans <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
 <span class="token keyword">for</span> each word <span class="token keyword">in</span> <span class="token constant">P</span>
    <span class="token keyword">if</span> <span class="token punctuation">(</span>text is prefix <span class="token keyword">of</span> word<span class="token punctuation">)</span>
       ans <span class="token operator">=</span> ans <span class="token operator">+</span> word
 <span class="token keyword">return</span> ans
-</code></pre><p> <strong>Phân tích độ phức tạp thuật toán Brute-force search</strong><div class="alert alert-info">
-<p><strong>Time complexity</strong></p>
-<ul>
-<li>Không tốn chi phí xây dưng.</li>
-<li>Tìm kiếm: Nếu N là kích thước của danh sách (tổng số các từ trong bộ dữ liệu) và L độ dài chuỗi tiền tố, chúng ta cần thời gian θ (N * L) để tìm kiếm.</li>
-<li>Chèn một từ mới cần thời gian không đổi θ (1)</li>
-</ul>
-<p><strong>Space complexity:</strong> θ(N)</p>
-</div><p>Dễ thấy mặc dù thuật toán Brute-force search dễ triển khai, nhưng chi phí thời gian chạy cao. Đối với các bộ dữ liệu lớn, cách tiếp cận này sẽ gần như bất khả thi để đáp ứng yêu cầu trả lại kết quả tìm kiếm trong một khoảng thời gian chấp nhận được.<h2 id=23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title=23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree class="anchor hidden-xs"></a>2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</h2><p><strong>Trie</strong> là một cấu trúc dữ liệu dạng cây được sử dụng để lưu trữ danh sách các từ và giúp cho việc tìm kiếm các từ với một tiền tố cụ thể trở nên nhanh hơn.<p>Trie là một cấu trúc cây n-nút (mỗi nút có ≤ n nút con), trong đó gốc không chứa thông tin, trên mỗi cạnh lưu một ký tự, mỗi nút và đường đi từ gốc đến nút đó thể hiện 1 xâu, gồm các ký tự là các ký tự thuộc cạnh trên đường đi đó. Các từ có tiền tố chung chia sẻ các nút chung, cho đến khi có sự phân kỳ.</p><center><img src=https://i.imgur.com/vfHHmg9.jpg alt="what image shows"height=250 width=200>
-<p><em>Hình 4. Lưu trữ từ vựng với cấu trúc Trie</em></p>
-</center><p>Như vậy để <strong>lưu trữ dữ liệu là bộ từ vựng tiếng anh, mỗi nút bao gồm tối đa 26 nút con</strong> tương ứng với 26 chữ cái của bảng chữ cái tiếng Anh. Trong minh họa hình 3, có thể tìm tất cả những từ trong từ điển của bạn mà bắt đầu với “ca”, ví dụ như “cat” hoặc “cape”. Nút gốc được đánh dấu là *. Từ nút gốc có thể đến những nút được đánh dấu (ví dụ như “e” hoặc “t”) để tìm ra những từ thỏa mãn. Những nút đánh dấu này cho biết đấy là kết thúc của một từ hoàn chỉnh.<p>Một TrieNode có thể được xây dựng bằng ngôn ngữ C như sau:<pre><code class="hljs c"><div class=wrapper><div class="gutter linenumber">
-
-
-
-
-
-</div><div class=code><span class="token macro property">#<span class="token keyword directive">define</span> ALPHABET_SIZE (26) </span><span class="token comment">// Number of symbols</span>
+</code></pre><p><i class="fa fa-tag"></i> <strong>Phân tích độ phức tạp thuật toán Brute-force search</strong><div class="alert alert-info"><p><strong>Time complexity</strong><ul><li>Không tốn chi phí xây dưng.<li>Tìm kiếm: Nếu N là kích thước của danh sách (tổng số các từ trong bộ dữ liệu) và L độ dài chuỗi tiền tố, chúng ta cần thời gian θ (N * L) để tìm kiếm.<li>Chèn một từ mới cần thời gian không đổi θ (1)</ul><p><strong>Space complexity:</strong> θ(N)</div><p>Dễ thấy mặc dù thuật toán Brute-force search dễ triển khai, nhưng chi phí thời gian chạy cao. Đối với các bộ dữ liệu lớn, cách tiếp cận này sẽ gần như bất khả thi để đáp ứng yêu cầu trả lại kết quả tìm kiếm trong một khoảng thời gian chấp nhận được.<h2 id=23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title=23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</h2><p><strong>Trie</strong> là một cấu trúc dữ liệu dạng cây được sử dụng để lưu trữ danh sách các từ và giúp cho việc tìm kiếm các từ với một tiền tố cụ thể trở nên nhanh hơn.<p>Trie là một cấu trúc cây n-nút (mỗi nút có ≤ n nút con), trong đó gốc không chứa thông tin, trên mỗi cạnh lưu một ký tự, mỗi nút và đường đi từ gốc đến nút đó thể hiện 1 xâu, gồm các ký tự là các ký tự thuộc cạnh trên đường đi đó. Các từ có tiền tố chung chia sẻ các nút chung, cho đến khi có sự phân kỳ.</p><center><img src=https://i.imgur.com/vfHHmg9.jpg alt="what image shows"height=250 width=200><p><em>Hình 4. Lưu trữ từ vựng với cấu trúc Trie</em></center><p>Như vậy để <strong>lưu trữ dữ liệu là bộ từ vựng tiếng anh, mỗi nút bao gồm tối đa 26 nút con</strong> tương ứng với 26 chữ cái của bảng chữ cái tiếng Anh. Trong minh họa hình 3, có thể tìm tất cả những từ trong từ điển của bạn mà bắt đầu với “ca”, ví dụ như “cat” hoặc “cape”. Nút gốc được đánh dấu là *. Từ nút gốc có thể đến những nút được đánh dấu (ví dụ như “e” hoặc “t”) để tìm ra những từ thỏa mãn. Những nút đánh dấu này cho biết đấy là kết thúc của một từ hoàn chỉnh.<p>Một TrieNode có thể được xây dựng bằng ngôn ngữ C như sau:<pre><code class="hljs c"><div class=wrapper><div class="gutter linenumber"><span data-linenumber=1></span>
+<span data-linenumber=2></span>
+<span data-linenumber=3></span>
+<span data-linenumber=4></span>
+<span data-linenumber=5></span>
+<span data-linenumber=6></span>
+<span data-linenumber=7></span></div><div class=code><span class="token macro property">#<span class="token keyword directive">define</span> ALPHABET_SIZE (26) </span><span class="token comment">// Number of symbols</span>
 <span class="token keyword">struct</span> TrieNode
 <span class="token punctuation">{</span>
     <span class="token keyword">char</span> alpha<span class="token punctuation">;</span> <span class="token comment">// contains value of the Node</span>
     bool isEndOfWord<span class="token punctuation">;</span> <span class="token comment">// true if the node represents end of a word </span>
     TrieNode <span class="token operator">*</span>children<span class="token punctuation">[</span>ALPHABET_SIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-</div></div></code></pre><h2 id=24-XÂY-DỰNG-THUẬT-TOÁN><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title=24-XÂY-DỰNG-THUẬT-TOÁN class="anchor hidden-xs"></a>2.4.	XÂY DỰNG THUẬT TOÁN</h2><p>Để thực hiện chức năng gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố, một số function sau sẽ được xây dựng:<ul>
-<li><strong>insertWord</strong> (String word): Thêm từ vào trong Trie (2.4.1)</li>
-<li><strong>find</strong> (String prefix): Tìm ra nút nào là nút chứa prefix cần tìm (2.4.2)</li>
-<li><strong>wordsWithPrefix</strong> (String prefix): Tìm tất cả các từ hoàn thành với tiền tố “prefix” nhập vào (2.4.3)</li>
-</ul><p>Ưu điểm của Trie là tối ưu cho bài toán tìm kiếm tiền tố (Prefix), với độ phức tạp là θ(L) với L là độ dài của từ cần tìm kiếm, hay nói cách khác, độ phức tạp của thao tác search gần như là cố định, và không phụ thuộc vào số lượng từ. Khẳng định này sẽ được làm rõ ngay sau đây.<h3 id=241-Thêm-từ-vào-trong-Trie><a href=#241-Thêm-từ-vào-trong-Trie title=241-Thêm-từ-vào-trong-Trie class="anchor hidden-xs"></a>2.4.1. Thêm từ vào trong Trie</h3><p>Để chèn một từ <code>word</code> vào cấu trúc Trie, chúng ta bắt đầu tìm kiếm theo các trường <code>children</code> thích hợp của các nút nhánh, tương ứng với các ký tự của <code>word</code>. Tại điểm mà <code>children</code> của nút nhánh dẫn đến <code>NULL</code>, các ký tự tiếp theo của khóa <code>word</code> được thêm vào.</p><center><img src=https://i.imgur.com/8UfQYhV.jpg>
-<p><em>Hình 5. Xây dựng cây tiền tố. Lần lượt thêm vào các từ “le”, “let”, “code” - <code>Nguồn: Leetcode: @elmirap, 2016</code></em></p>
-</center><pre><code class="hljs javascript">Procedure<span class="token punctuation">:</span> <span class="token function">insertWord</span><span class="token punctuation">(</span>String word<span class="token punctuation">)</span>
+</div></div></code></pre><h2 id=24-XÂY-DỰNG-THUẬT-TOÁN><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title=24-XÂY-DỰNG-THUẬT-TOÁN class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.4.	XÂY DỰNG THUẬT TOÁN</h2><p>Để thực hiện chức năng gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố, một số function sau sẽ được xây dựng:<ul><li><strong>insertWord</strong> (String word): Thêm từ vào trong Trie (2.4.1)<li><strong>find</strong> (String prefix): Tìm ra nút nào là nút chứa prefix cần tìm (2.4.2)<li><strong>wordsWithPrefix</strong> (String prefix): Tìm tất cả các từ hoàn thành với tiền tố “prefix” nhập vào (2.4.3)</ul><p>Ưu điểm của Trie là tối ưu cho bài toán tìm kiếm tiền tố (Prefix), với độ phức tạp là θ(L) với L là độ dài của từ cần tìm kiếm, hay nói cách khác, độ phức tạp của thao tác search gần như là cố định, và không phụ thuộc vào số lượng từ. Khẳng định này sẽ được làm rõ ngay sau đây.<h3 id=241-Thêm-từ-vào-trong-Trie><a href=#241-Thêm-từ-vào-trong-Trie title=241-Thêm-từ-vào-trong-Trie class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.4.1. Thêm từ vào trong Trie</h3><p>Để chèn một từ <code>word</code> vào cấu trúc Trie, chúng ta bắt đầu tìm kiếm theo các trường <code>children</code> thích hợp của các nút nhánh, tương ứng với các ký tự của <code>word</code>. Tại điểm mà <code>children</code> của nút nhánh dẫn đến <code>NULL</code>, các ký tự tiếp theo của khóa <code>word</code> được thêm vào.</p><center><img src=https://i.imgur.com/8UfQYhV.jpg><p><em>Hình 5. Xây dựng cây tiền tố. Lần lượt thêm vào các từ “le”, “let”, “code” - <code>Nguồn: Leetcode: @elmirap, 2016</code></em></center><pre><code class="hljs javascript">Procedure<span class="token punctuation">:</span> <span class="token function">insertWord</span><span class="token punctuation">(</span>String word<span class="token punctuation">)</span>
 
 TrieNode current <span class="token operator">=</span> root
 <span class="token keyword">for</span> each char <span class="token keyword">in</span> word<span class="token punctuation">:</span>
@@ -88,14 +26,7 @@ TrieNode current <span class="token operator">=</span> root
       current<span class="token punctuation">.</span>children<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">TrieNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
     current <span class="token operator">=</span> current<span class="token punctuation">.</span>children<span class="token punctuation">[</span>char<span class="token punctuation">]</span>
 current<span class="token punctuation">.</span>isEndOfWord <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-</code></pre><p> <strong>Phân tích độ phức tạp thuật toán thao tác thêm từ vào Trie</strong><div class="alert alert-info">
-<p><strong>Time complexity:</strong> θ(L), trong đó L là độ dài của từ cần thêm.<br>
-Trong mỗi lần lặp của thuật toán, chúng ta hoặc kiểm tra hoặc tạo một nút trong Trie cho đến khi chúng ta đạt đến cuối của khóa. Điều này chỉ mất L thao tác.<br>
-<strong>Space complexity:</strong> θ(L)<br>
-Trong trường hợp xấu nhất, khóa mới được chèn không chia sẻ tiền tố với các khóa đã được chèn trong Trie. Chúng ta phải thêm L nút mới, dẫn đến độ phức tạp lưu trữ là θ(L).</p>
-</div><h3 id=242-Tìm-kiếm-tiền-tố><a href=#242-Tìm-kiếm-tiền-tố title=242-Tìm-kiếm-tiền-tố class="anchor hidden-xs"></a>2.4.2.	Tìm kiếm tiền tố</h3><center><img src=https://i.imgur.com/Bh6sX6E.jpg height=300>
-<p><em>Hình 6. Tìm kiếm tiền tố “co” - <code>Nguồn: Leetcode: @elmirap, 2016</code></em></p>
-</center><p>Ví dụ tìm kiếm tiền tố <code>"co"</code> như hình 6. Khi tìm kiếm, đầu tiên chúng ta bắt đầu từ gốc và tìm kiếm nút con để tìm ký tự đầu tiên phù hợp, trong ví dụ là ký tự <code>"c"</code>. Khi tìm thấy ký tự khớp với nút, chúng ta coi nó là gốc để tiếp tục tìm kiếm trong nút con trực tiếp cho các ký tự <code>"o"</code> tiếp theo. Logic này tiếp tục cho đến khi không còn ký tự nào trên tiền tố.<pre><code class="hljs javascript">Procedure<span class="token punctuation">:</span> <span class="token function">find</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span> <span class="token keyword">return</span> a TrieNode
+</code></pre><p><i class="fa fa-tag"></i> <strong>Phân tích độ phức tạp thuật toán thao tác thêm từ vào Trie</strong><div class="alert alert-info"><p><strong>Time complexity:</strong> θ(L), trong đó L là độ dài của từ cần thêm.<br>Trong mỗi lần lặp của thuật toán, chúng ta hoặc kiểm tra hoặc tạo một nút trong Trie cho đến khi chúng ta đạt đến cuối của khóa. Điều này chỉ mất L thao tác.<br><strong>Space complexity:</strong> θ(L)<br>Trong trường hợp xấu nhất, khóa mới được chèn không chia sẻ tiền tố với các khóa đã được chèn trong Trie. Chúng ta phải thêm L nút mới, dẫn đến độ phức tạp lưu trữ là θ(L).</div><h3 id=242-Tìm-kiếm-tiền-tố><a href=#242-Tìm-kiếm-tiền-tố title=242-Tìm-kiếm-tiền-tố class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.4.2.	Tìm kiếm tiền tố</h3><center><img src=https://i.imgur.com/Bh6sX6E.jpg height=300><p><em>Hình 6. Tìm kiếm tiền tố “co” - <code>Nguồn: Leetcode: @elmirap, 2016</code></em></center><p>Ví dụ tìm kiếm tiền tố <code>"co"</code> như hình 6. Khi tìm kiếm, đầu tiên chúng ta bắt đầu từ gốc và tìm kiếm nút con để tìm ký tự đầu tiên phù hợp, trong ví dụ là ký tự <code>"c"</code>. Khi tìm thấy ký tự khớp với nút, chúng ta coi nó là gốc để tiếp tục tìm kiếm trong nút con trực tiếp cho các ký tự <code>"o"</code> tiếp theo. Logic này tiếp tục cho đến khi không còn ký tự nào trên tiền tố.<pre><code class="hljs javascript">Procedure<span class="token punctuation">:</span> <span class="token function">find</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span> <span class="token keyword">return</span> a TrieNode
 
 TrieNode current <span class="token operator">=</span> root
 <span class="token keyword">for</span> every char <span class="token keyword">in</span> prefix<span class="token punctuation">:</span>
@@ -105,225 +36,182 @@ TrieNode current <span class="token operator">=</span> root
         <span class="token keyword">return</span> <span class="token keyword">null</span>
 <span class="token keyword">return</span> current
 
-</code></pre><p>Chúng ta không cần xem xét dấu <code>isEndOfWord</code> của nút hiện tại, bởi vì chúng ta đang tìm kiếm tiền tố của một từ, không phải cho toàn bộ từ.<p> <strong>Độ phức tạp thuật toán tìm kiếm tiền tố</strong><div class="alert alert-info">
-<p><strong>Time complexity:</strong> θ(L), trong đó L là độ dài của từ cần tìm.<br>
-Trong mỗi bước của thuật toán, chúng ta tìm kiếm ký tự khóa tiếp theo. Trong trường hợp xấu nhất, thuật toán thực hiện L thao tác.<br>
-<strong>Space complexity:</strong> θ(1)</p>
-</div><h3 id=243-Gợi-ý-tự-động-hoàn-thành---AutoComplete><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title=243-Gợi-ý-tự-động-hoàn-thành---AutoComplete class="anchor hidden-xs"></a>2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</h3><p>Gợi ý tự động hoàn thành tìm kiếm từ vựng thực chất là việc thực hiện tìm kiếm tất cả các từ thỏa mãn có tiền tố là biến đầu vào.<p>Bài toán này gồm 2 bước (hình 7):<ul>
-<li><strong>Bước 1:</strong> Tìm ra node nào là node X chứa prefix cần tìm kiếm: θ(L), với L là độ dài của tiền tố</li>
-<li><strong>Bước 2:</strong> Từ node X duyệt trả về tất cả các từ hoàn thiện. Trong trường hợp xấu nhất, đây là thao tác θ(N), với N là tổng số nút trong Trie</li>
-</ul><center>
-<img src=https://i.imgur.com/EV8f9bQ.gif>
-<p><em>Hình 7. Đi xuống Node tiền tố và duyệt trả về tất cả các từ hoàn thiện - <code>Nguồn: Ramok.tech: @Klevis Ramo, 2017</code></em></p>
-</center><div class="alert alert-info">
-<p>Như vậy, tổng độ phức tạp thời gian là <strong>θ(L) + θ(N)</strong></p>
-</div><h2 id=25-Cài-đặt-chương-trình><a href=#25-Cài-đặt-chương-trình title=25-Cài-đặt-chương-trình class="anchor hidden-xs"></a>2.5.	Cài đặt chương trình</h2><p>Chương trình tìm kiếm được xây dựng trên tập dữ liệu từ vựng tiếng anh bao gồm 370.099 từ. Thử nghiệm được tiến hành trên máy tính cấu hình Intel i3-3217U @1.80 GHz, RAM 4 Gb, SSD Kingston V300 Standalone drive. Với chương trình viết bằng <code>C++</code>, mất khoảng 1.2 giây để load dữ liệu và xây dựng cây Trie. Thời gian tra cứu trung bình là 10 - 30 mili giây (hình 8).<blockquote>
-<p>Bộ dữ liệu và mã nguồn chạy chương trình C++ được cung cấp trong phần <strong>PHỤ LỤC</strong>.</p>
-</blockquote><center>
-<img src=https://i.imgur.com/1jet9Fk.jpg>
-<p><em>Hình 8. Cài đặt chương trình với ngôn ngữ C++</em></p>
-</center><div class="alert alert-success">
-<p>Ngoài ra, chương trình cũng được thử nghiệm kết hợp với xây dựng giao diện <code>Java Swing</code>, và trên nền tảng Web (sử dụng <code>Javascript</code> để cài đặt)- hình 9, 10.</p>
-</div><center>
-<img src=https://i.imgur.com/pOwnXdD.jpg>
-<p><em>Hình 9. Cài đặt chương trình với giao diện Java Swing</em></p>
-</center><div class="alert alert-success">
-<p><strong>Với ứng dụng web,</strong> nếu cài đặt theo hướng Brute force search, tìm kiếm trên tập dữ liệu tương đối lớn gây hiện tượng lag, đơ trình duyệt. Vấn đề này hoàn toàn được giải quyết với triển khai lưu trữ và tìm kiếm dữ liệu trên cấu trúc Trie đã trình bày. Để tăng trải nghiệm người dùng, tránh hiện tượng giật lag, một điều chỉnh nhỏ khác được tiến hành là thuật toán tìm kiếm chỉ bắt đầu thực hiện với tiền tố từ 3 ký tự trở lên.</p>
-</div><center>
-<img src=https://i.imgur.com/Mny5Q9C.jpg>
-<p><em>Hình 10. Ứng dụng web gợi ý tự động hoàn thành - Link cài đặt: <a href=http://bit.ly/edu-sgbox rel=noopener target=_blank>SaiGroup-AutoComplete</a></em></p>
-</center><h1 id=3-Một-số-đề-xuất-cải-tiến><a href=#3-Một-số-đề-xuất-cải-tiến title=3-Một-số-đề-xuất-cải-tiến class="anchor hidden-xs"></a>3. Một số đề xuất cải tiến</h1><h2 id=31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title=31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút class="anchor hidden-xs"></a>3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</h2><p><strong>Nút thắt chính</strong> của phương pháp đã trình bày là việc tìm kiếm tất cả các hoàn thành (tìm kiếm tất cả các lá). Vì sau khi đi xuống nút tiền tố, chúng ta vẫn phải truy cập từng con của nó để tìm tất cả các hoàn thành. Trong trường hợp xấu nhất, đây là thao tác θ(N). Điều này dẫn chúng ta suy nghĩ về giải pháp để có thể gỡ bỏ nút cổ chai θ(N).<p>Thay vì lưu trữ dữ liệu trong một Trie thông thường, chúng tôi nhận ra rằng có thể lưu trữ một tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút. Điều này giúp loại bỏ nút cổ chai θ (N), vì chúng ta không còn phải đi qua để tìm tất cả các hoàn thành (hình 11).</p><center>
-<img src=https://i.imgur.com/ntU0WdQ.gif>
-<p><em>Hình 11. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút giúp tăng tốc độ tìm kiếm - <code>Nguồn: Ramok.tech: @Klevis Ramo, 2017</code></em></p>
-</center><div class="alert alert-info">
-<p>Cải tiến này giúp độ phức tạp bây giờ chỉ là <strong>θ (L)</strong>, trong đó L là độ dài của tiền tố.</p>
-</div><p>Sự phức tạp thời gian bây giờ tốt hơn đáng kể, nhưng thuật toán tiêu thụ nhiều không gian hơn, vì chúng ta sẽ lưu trữ nhiều phần hoàn thành giống nhau trong các nút tiền tố khác nhau. Chẳng hạn, từ hoàn thiện “tea” sẽ được lưu trữ hai lần: trong nút “t” và cả trong nút “te”. Giải pháp này cũng yêu cầu thực hiện nhiều thao tác ghi hơn để giữ cho các hoàn thành được cập nhật.<h2 id=32-Tối-ưu-số-đề-xuất><a href=#32-Tối-ưu-số-đề-xuất title=32-Tối-ưu-số-đề-xuất class="anchor hidden-xs"></a>3.2. Tối ưu số đề xuất</h2><p>Số lượng các đề xuất hoàn thành có thể quá lớn nên chúng ta nên chọn lọc trong khi hiển thị chúng. Bằng cách xem xét lịch sử tìm kiếm trong quá khứ, chúng ta có thể chỉ hiển thị các chuỗi phù hợp được tìm kiếm nhiều nhất dưới dạng kết quả có liên quan.<br>
-Như vậy so với cách xây dựng Trie cơ sở ban đầu, cải tiến này đòi hỏi thêm bước thứ ba là sắp xếp lại các từ hoàn thiện thu được (hình 12).<ul>
-<li><strong>Bước 1:</strong> Tìm ra node nào là node X chứa prefix cần tìm kiếm: θ(L)</li>
-<li><strong>Bước 2:</strong> Từ node X duyệt trả về tất cả các từ hoàn thiện: θ(N)</li>
-<li><strong>Bước 3:</strong> Sắp xếp các từ hoàn thiện dựa vào điểm: θ(K log K), với K là số từ hoàn thiện được trả về</li>
-</ul><center>
-<img src=https://i.imgur.com/fJW8Ivy.jpg>
-<p><em>Hình 12. Sắp xếp các từ hoàn thiện được trả về, ưu tiên hiển thị các từ với điểm score từ cao đến thấp - <code>Nguồn: Medium: @prefixyteam, 2018</code></em></p>
-</center><h1 id=-PHỤ-LỤC><a href=#-PHỤ-LỤC title=-PHỤ-LỤC class="anchor hidden-xs"></a><img src=https://i.imgur.com/bMJhe6d.png alt=""> PHỤ LỤC</h1><ul>
-<li>Dữ liệu bộ từ vựng tiếng anh (370.099 từ): <a href="https://drive.google.com/file/d/1w4xKipFP5KPX4VhLfkMxnQ5Rf8ztYGhp/view?usp=sharing"rel=noopener target=_blank>raw-370099.txt</a></li>
-<li>Mã nguồn C++:</li>
-</ul><pre><code class="hljs c"><div class=wrapper><div class="gutter linenumber">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div><div class=code><span class="token macro property">#<span class="token keyword directive">ifndef</span> ALPHABET_SIZE</span>
+</code></pre><p>Chúng ta không cần xem xét dấu <code>isEndOfWord</code> của nút hiện tại, bởi vì chúng ta đang tìm kiếm tiền tố của một từ, không phải cho toàn bộ từ.<p><i class="fa fa-tag"></i> <strong>Độ phức tạp thuật toán tìm kiếm tiền tố</strong><div class="alert alert-info"><p><strong>Time complexity:</strong> θ(L), trong đó L là độ dài của từ cần tìm.<br>Trong mỗi bước của thuật toán, chúng ta tìm kiếm ký tự khóa tiếp theo. Trong trường hợp xấu nhất, thuật toán thực hiện L thao tác.<br><strong>Space complexity:</strong> θ(1)</div><h3 id=243-Gợi-ý-tự-động-hoàn-thành---AutoComplete><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title=243-Gợi-ý-tự-động-hoàn-thành---AutoComplete class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</h3><p>Gợi ý tự động hoàn thành tìm kiếm từ vựng thực chất là việc thực hiện tìm kiếm tất cả các từ thỏa mãn có tiền tố là biến đầu vào.<p>Bài toán này gồm 2 bước (hình 7):<ul><li><strong>Bước 1:</strong> Tìm ra node nào là node X chứa prefix cần tìm kiếm: θ(L), với L là độ dài của tiền tố<li><strong>Bước 2:</strong> Từ node X duyệt trả về tất cả các từ hoàn thiện. Trong trường hợp xấu nhất, đây là thao tác θ(N), với N là tổng số nút trong Trie</ul><center><img src=https://i.imgur.com/EV8f9bQ.gif><p><em>Hình 7. Đi xuống Node tiền tố và duyệt trả về tất cả các từ hoàn thiện - <code>Nguồn: Ramok.tech: @Klevis Ramo, 2017</code></em></center><div class="alert alert-info"><p>Như vậy, tổng độ phức tạp thời gian là <strong>θ(L) + θ(N)</strong></div><h2 id=25-Cài-đặt-chương-trình><a href=#25-Cài-đặt-chương-trình title=25-Cài-đặt-chương-trình class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>2.5.	Cài đặt chương trình</h2><p>Chương trình tìm kiếm được xây dựng trên tập dữ liệu từ vựng tiếng anh bao gồm 370.099 từ. Thử nghiệm được tiến hành trên máy tính cấu hình Intel i3-3217U @1.80 GHz, RAM 4 Gb, SSD Kingston V300 Standalone drive. Với chương trình viết bằng <code>C++</code>, mất khoảng 1.2 giây để load dữ liệu và xây dựng cây Trie. Thời gian tra cứu trung bình là 10 - 30 mili giây (hình 8).<blockquote><p>Bộ dữ liệu và mã nguồn chạy chương trình C++ được cung cấp trong phần <strong>PHỤ LỤC</strong>.</blockquote><center><img src=https://i.imgur.com/1jet9Fk.jpg><p><em>Hình 8. Cài đặt chương trình với ngôn ngữ C++</em></center><div class="alert alert-success"><p>Ngoài ra, chương trình cũng được thử nghiệm kết hợp với xây dựng giao diện <code>Java Swing</code>, và trên nền tảng Web (sử dụng <code>Javascript</code> để cài đặt)- hình 9, 10.</div><center><img src=https://i.imgur.com/pOwnXdD.jpg><p><em>Hình 9. Cài đặt chương trình với giao diện Java Swing</em></center><div class="alert alert-success"><p><strong>Với ứng dụng web,</strong> nếu cài đặt theo hướng Brute force search, tìm kiếm trên tập dữ liệu tương đối lớn gây hiện tượng lag, đơ trình duyệt. Vấn đề này hoàn toàn được giải quyết với triển khai lưu trữ và tìm kiếm dữ liệu trên cấu trúc Trie đã trình bày. Để tăng trải nghiệm người dùng, tránh hiện tượng giật lag, một điều chỉnh nhỏ khác được tiến hành là thuật toán tìm kiếm chỉ bắt đầu thực hiện với tiền tố từ 3 ký tự trở lên.</div><center><img src=https://i.imgur.com/Mny5Q9C.jpg><p><em>Hình 10. Ứng dụng web gợi ý tự động hoàn thành - Link cài đặt: <a href=http://bit.ly/edu-sgbox rel=noopener target=_blank>SaiGroup-AutoComplete</a></em></center><h1 id=3-Một-số-đề-xuất-cải-tiến><a href=#3-Một-số-đề-xuất-cải-tiến title=3-Một-số-đề-xuất-cải-tiến class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>3. Một số đề xuất cải tiến</h1><h2 id=31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title=31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</h2><p><strong>Nút thắt chính</strong> của phương pháp đã trình bày là việc tìm kiếm tất cả các hoàn thành (tìm kiếm tất cả các lá). Vì sau khi đi xuống nút tiền tố, chúng ta vẫn phải truy cập từng con của nó để tìm tất cả các hoàn thành. Trong trường hợp xấu nhất, đây là thao tác θ(N). Điều này dẫn chúng ta suy nghĩ về giải pháp để có thể gỡ bỏ nút cổ chai θ(N).<p>Thay vì lưu trữ dữ liệu trong một Trie thông thường, chúng tôi nhận ra rằng có thể lưu trữ một tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút. Điều này giúp loại bỏ nút cổ chai θ (N), vì chúng ta không còn phải đi qua để tìm tất cả các hoàn thành (hình 11).</p><center><img src=https://i.imgur.com/ntU0WdQ.gif><p><em>Hình 11. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút giúp tăng tốc độ tìm kiếm - <code>Nguồn: Ramok.tech: @Klevis Ramo, 2017</code></em></center><div class="alert alert-info"><p>Cải tiến này giúp độ phức tạp bây giờ chỉ là <strong>θ (L)</strong>, trong đó L là độ dài của tiền tố.</div><p>Sự phức tạp thời gian bây giờ tốt hơn đáng kể, nhưng thuật toán tiêu thụ nhiều không gian hơn, vì chúng ta sẽ lưu trữ nhiều phần hoàn thành giống nhau trong các nút tiền tố khác nhau. Chẳng hạn, từ hoàn thiện “tea” sẽ được lưu trữ hai lần: trong nút “t” và cả trong nút “te”. Giải pháp này cũng yêu cầu thực hiện nhiều thao tác ghi hơn để giữ cho các hoàn thành được cập nhật.<h2 id=32-Tối-ưu-số-đề-xuất><a href=#32-Tối-ưu-số-đề-xuất title=32-Tối-ưu-số-đề-xuất class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>3.2. Tối ưu số đề xuất</h2><p>Số lượng các đề xuất hoàn thành có thể quá lớn nên chúng ta nên chọn lọc trong khi hiển thị chúng. Bằng cách xem xét lịch sử tìm kiếm trong quá khứ, chúng ta có thể chỉ hiển thị các chuỗi phù hợp được tìm kiếm nhiều nhất dưới dạng kết quả có liên quan.<br>Như vậy so với cách xây dựng Trie cơ sở ban đầu, cải tiến này đòi hỏi thêm bước thứ ba là sắp xếp lại các từ hoàn thiện thu được (hình 12).<ul><li><strong>Bước 1:</strong> Tìm ra node nào là node X chứa prefix cần tìm kiếm: θ(L)<li><strong>Bước 2:</strong> Từ node X duyệt trả về tất cả các từ hoàn thiện: θ(N)<li><strong>Bước 3:</strong> Sắp xếp các từ hoàn thiện dựa vào điểm: θ(K log K), với K là số từ hoàn thiện được trả về</ul><center><img src=https://i.imgur.com/fJW8Ivy.jpg><p><em>Hình 12. Sắp xếp các từ hoàn thiện được trả về, ưu tiên hiển thị các từ với điểm score từ cao đến thấp - <code>Nguồn: Medium: @prefixyteam, 2018</code></em></center><h1 id=-PHỤ-LỤC><a href=#-PHỤ-LỤC title=-PHỤ-LỤC class="anchor hidden-xs"><span class="octicon octicon-link"></span></a><img src=https://i.imgur.com/bMJhe6d.png alt=""> PHỤ LỤC</h1><ul><li>Dữ liệu bộ từ vựng tiếng anh (370.099 từ): <a href="https://drive.google.com/file/d/1w4xKipFP5KPX4VhLfkMxnQ5Rf8ztYGhp/view?usp=sharing"rel=noopener target=_blank>raw-370099.txt</a><li>Mã nguồn C++:</ul><pre><code class="hljs c"><div class=wrapper><div class="gutter linenumber"><span data-linenumber=1></span>
+<span data-linenumber=2></span>
+<span data-linenumber=3></span>
+<span data-linenumber=4></span>
+<span data-linenumber=5></span>
+<span data-linenumber=6></span>
+<span data-linenumber=7></span>
+<span data-linenumber=8></span>
+<span data-linenumber=9></span>
+<span data-linenumber=10></span>
+<span data-linenumber=11></span>
+<span data-linenumber=12></span>
+<span data-linenumber=13></span>
+<span data-linenumber=14></span>
+<span data-linenumber=15></span>
+<span data-linenumber=16></span>
+<span data-linenumber=17></span>
+<span data-linenumber=18></span>
+<span data-linenumber=19></span>
+<span data-linenumber=20></span>
+<span data-linenumber=21></span>
+<span data-linenumber=22></span>
+<span data-linenumber=23></span>
+<span data-linenumber=24></span>
+<span data-linenumber=25></span>
+<span data-linenumber=26></span>
+<span data-linenumber=27></span>
+<span data-linenumber=28></span>
+<span data-linenumber=29></span>
+<span data-linenumber=30></span>
+<span data-linenumber=31></span>
+<span data-linenumber=32></span>
+<span data-linenumber=33></span>
+<span data-linenumber=34></span>
+<span data-linenumber=35></span>
+<span data-linenumber=36></span>
+<span data-linenumber=37></span>
+<span data-linenumber=38></span>
+<span data-linenumber=39></span>
+<span data-linenumber=40></span>
+<span data-linenumber=41></span>
+<span data-linenumber=42></span>
+<span data-linenumber=43></span>
+<span data-linenumber=44></span>
+<span data-linenumber=45></span>
+<span data-linenumber=46></span>
+<span data-linenumber=47></span>
+<span data-linenumber=48></span>
+<span data-linenumber=49></span>
+<span data-linenumber=50></span>
+<span data-linenumber=51></span>
+<span data-linenumber=52></span>
+<span data-linenumber=53></span>
+<span data-linenumber=54></span>
+<span data-linenumber=55></span>
+<span data-linenumber=56></span>
+<span data-linenumber=57></span>
+<span data-linenumber=58></span>
+<span data-linenumber=59></span>
+<span data-linenumber=60></span>
+<span data-linenumber=61></span>
+<span data-linenumber=62></span>
+<span data-linenumber=63></span>
+<span data-linenumber=64></span>
+<span data-linenumber=65></span>
+<span data-linenumber=66></span>
+<span data-linenumber=67></span>
+<span data-linenumber=68></span>
+<span data-linenumber=69></span>
+<span data-linenumber=70></span>
+<span data-linenumber=71></span>
+<span data-linenumber=72></span>
+<span data-linenumber=73></span>
+<span data-linenumber=74></span>
+<span data-linenumber=75></span>
+<span data-linenumber=76></span>
+<span data-linenumber=77></span>
+<span data-linenumber=78></span>
+<span data-linenumber=79></span>
+<span data-linenumber=80></span>
+<span data-linenumber=81></span>
+<span data-linenumber=82></span>
+<span data-linenumber=83></span>
+<span data-linenumber=84></span>
+<span data-linenumber=85></span>
+<span data-linenumber=86></span>
+<span data-linenumber=87></span>
+<span data-linenumber=88></span>
+<span data-linenumber=89></span>
+<span data-linenumber=90></span>
+<span data-linenumber=91></span>
+<span data-linenumber=92></span>
+<span data-linenumber=93></span>
+<span data-linenumber=94></span>
+<span data-linenumber=95></span>
+<span data-linenumber=96></span>
+<span data-linenumber=97></span>
+<span data-linenumber=98></span>
+<span data-linenumber=99></span>
+<span data-linenumber=100></span>
+<span data-linenumber=101></span>
+<span data-linenumber=102></span>
+<span data-linenumber=103></span>
+<span data-linenumber=104></span>
+<span data-linenumber=105></span>
+<span data-linenumber=106></span>
+<span data-linenumber=107></span>
+<span data-linenumber=108></span>
+<span data-linenumber=109></span>
+<span data-linenumber=110></span>
+<span data-linenumber=111></span>
+<span data-linenumber=112></span>
+<span data-linenumber=113></span>
+<span data-linenumber=114></span>
+<span data-linenumber=115></span>
+<span data-linenumber=116></span>
+<span data-linenumber=117></span>
+<span data-linenumber=118></span>
+<span data-linenumber=119></span>
+<span data-linenumber=120></span>
+<span data-linenumber=121></span>
+<span data-linenumber=122></span>
+<span data-linenumber=123></span>
+<span data-linenumber=124></span>
+<span data-linenumber=125></span>
+<span data-linenumber=126></span>
+<span data-linenumber=127></span>
+<span data-linenumber=128></span>
+<span data-linenumber=129></span>
+<span data-linenumber=130></span>
+<span data-linenumber=131></span>
+<span data-linenumber=132></span>
+<span data-linenumber=133></span>
+<span data-linenumber=134></span>
+<span data-linenumber=135></span>
+<span data-linenumber=136></span>
+<span data-linenumber=137></span>
+<span data-linenumber=138></span>
+<span data-linenumber=139></span>
+<span data-linenumber=140></span>
+<span data-linenumber=141></span>
+<span data-linenumber=142></span>
+<span data-linenumber=143></span>
+<span data-linenumber=144></span>
+<span data-linenumber=145></span>
+<span data-linenumber=146></span>
+<span data-linenumber=147></span>
+<span data-linenumber=148></span>
+<span data-linenumber=149></span>
+<span data-linenumber=150></span>
+<span data-linenumber=151></span>
+<span data-linenumber=152></span>
+<span data-linenumber=153></span>
+<span data-linenumber=154></span>
+<span data-linenumber=155></span>
+<span data-linenumber=156></span>
+<span data-linenumber=157></span>
+<span data-linenumber=158></span>
+<span data-linenumber=159></span>
+<span data-linenumber=160></span>
+<span data-linenumber=161></span>
+<span data-linenumber=162></span>
+<span data-linenumber=163></span>
+<span data-linenumber=164></span>
+<span data-linenumber=165></span>
+<span data-linenumber=166></span>
+<span data-linenumber=167></span>
+<span data-linenumber=168></span>
+<span data-linenumber=169></span>
+<span data-linenumber=170></span>
+<span data-linenumber=171></span>
+<span data-linenumber=172></span>
+<span data-linenumber=173></span>
+<span data-linenumber=174></span>
+<span data-linenumber=175></span>
+<span data-linenumber=176></span></div><div class=code><span class="token macro property">#<span class="token keyword directive">ifndef</span> ALPHABET_SIZE</span>
 <span class="token macro property">#<span class="token keyword directive">define</span> ALPHABET_SIZE 26</span>
 <span class="token macro property">#<span class="token keyword directive">endif</span></span>
 
@@ -499,67 +387,4 @@ bool <span class="token function">openFile</span><span class="token punctuation"
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-</div></div></code></pre><h6 id=tags-tutorialDCNTT2017><a href=#tags-tutorialDCNTT2017 title=tags-tutorialDCNTT2017 class="anchor hidden-xs"></a>tags: <code>tutorial</code>,<code>DCNTT2017</code></h6></div>
-<div class="hidden-print unselectable dropup ui-toc"style=display:none>
-<div class="dropdown pull-right">
-<a href=# title="Table of content"class="btn btn-default ui-toc-label"aria-expanded=false aria-haspopup=true data-toggle=dropdown id=tocLabel role=button>
-
-</a>
-<ul class="ui-toc-dropdown dropdown-menu"aria-labelledby=tocLabel id=ui-toc>
-<div class=toc><ul class=nav>
-<li><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
-<li><a href=#1-Giới-thiệu-bài-toán title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a></li>
-<li><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class=nav>
-<li><a href=#21-Một-số-thuật-ngữ-quan-trọng title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a></li>
-<li><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a></li>
-<li><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a></li>
-<li><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class=nav>
-<li><a href=#241-Thêm-từ-vào-trong-Trie title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a></li>
-<li><a href=#242-Tìm-kiếm-tiền-tố title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
-<li><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></li>
-</ul>
-</li>
-<li><a href=#25-Cài-đặt-chương-trình title="2.5.	Cài đặt chương trình">2.5.	Cài đặt chương trình</a></li>
-</ul>
-</li>
-<li><a href=#3-Một-số-đề-xuất-cải-tiến title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class=nav>
-<li><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a></li>
-<li><a href=#32-Tối-ưu-số-đề-xuất title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></li>
-</ul>
-</li>
-<li><a href=#-PHỤ-LỤC title=" PHỤ LỤC"> PHỤ LỤC</a></li>
-</ul>
-</div><div class=toc-menu><a href=# class=expand-toggle>Expand all</a><a href=# class=back-to-top>Back to top</a><a href=# class=go-to-bottom>Go to bottom</a></div>
-</ul>
-</div>
-</div>
-<div class="hidden-print unselectable ui-affix-toc ui-toc-dropdown"style=top:17px;display:none id=ui-toc-affix data-spy=affix>
-<div class=toc><ul class=nav>
-<li><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a></li>
-<li><a href=#1-Giới-thiệu-bài-toán title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a></li>
-<li><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class=nav>
-<li><a href=#21-Một-số-thuật-ngữ-quan-trọng title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a></li>
-<li><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a></li>
-<li><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a></li>
-<li><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class=nav>
-<li><a href=#241-Thêm-từ-vào-trong-Trie title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a></li>
-<li><a href=#242-Tìm-kiếm-tiền-tố title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a></li>
-<li><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></li>
-</ul>
-</li>
-<li><a href=#25-Cài-đặt-chương-trình title="2.5.	Cài đặt chương trình">2.5.	Cài đặt chương trình</a></li>
-</ul>
-</li>
-<li><a href=#3-Một-số-đề-xuất-cải-tiến title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class=nav>
-<li><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a></li>
-<li><a href=#32-Tối-ưu-số-đề-xuất title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></li>
-</ul>
-</li>
-<li><a href=#-PHỤ-LỤC title=" PHỤ LỤC"> PHỤ LỤC</a></li>
-</ul>
-</div><div class=toc-menu><a href=# class=expand-toggle>Expand all</a><a href=# class=back-to-top>Back to top</a><a href=# class=go-to-bottom>Go to bottom</a></div>
-</div>
-<script crossorigin=anonymous integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js></script>
-<script crossorigin=anonymous integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="src=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js defer></script>
-<script crossorigin=anonymous integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g="src=https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js defer></script>
-<script>var markdown=$(".markdown-body");function smoothHashScroll(){for(var o=$("a[href^='#']").toArray(),t=0;t<o.length;t++){var n=o[t],e=$(n);n.hash&&e.on("click",function(o){var t=this.hash;$(t).length<=0||(o.preventDefault(),$("body, html").stop(!0,!0).animate({scrollTop:$(t).offset().top},100,"linear",function(){window.location.hash=t}))})}}smoothHashScroll();var toc=$(".ui-toc"),tocAffix=$(".ui-affix-toc"),tocDropdown=$(".ui-toc-dropdown");tocDropdown.click(function(o){o.stopPropagation()});var enoughForAffixToc=!0;function generateScrollspy(){$(document.body).scrollspy({target:""}),$(document.body).scrollspy("refresh"),enoughForAffixToc?(toc.hide(),tocAffix.show()):(tocAffix.hide(),toc.show()),$(document.body).scroll()}function windowResize(){var o,t=parseFloat(markdown.css("padding-right")),n=$(window).width()-(markdown.offset().left+markdown.outerWidth()-t);if(toc.css("right",n+"px"),133<=(markdown.parent().outerWidth()-markdown.outerWidth())/2){o=!0;var e=(tocAffix.outerWidth()-tocAffix.width())/2,c=markdown.offset().left+markdown.outerWidth()-e;tocAffix.css("left",c+"px")}else o=!1;o!=enoughForAffixToc&&(enoughForAffixToc=o,generateScrollspy())}function removeHash(){window.location.hash=""}$(window).resize(function(){windowResize()}),$(document).ready(function(){windowResize(),generateScrollspy()});var backtotop=$(".back-to-top"),gotobottom=$(".go-to-bottom");backtotop.click(function(o){o.preventDefault(),o.stopPropagation(),scrollToTop&&scrollToTop(),removeHash()}),gotobottom.click(function(o){o.preventDefault(),o.stopPropagation(),scrollToBottom&&scrollToBottom(),removeHash()});var toggle=$(".expand-toggle"),tocExpand=!1;function checkExpandToggle(){var o=$(".ui-toc-dropdown .toc"),t=$(".expand-toggle");tocExpand?(o.addClass("expand"),t.text("Collapse all")):(o.removeClass("expand"),t.text("Expand all"))}function scrollToTop(){$("body, html").stop(!0,!0).animate({scrollTop:0},100,"linear")}function scrollToBottom(){$("body, html").stop(!0,!0).animate({scrollTop:$(document.body)[0].scrollHeight},100,"linear")}checkExpandToggle(),toggle.click(function(o){o.preventDefault(),o.stopPropagation(),tocExpand=!tocExpand,checkExpandToggle()})</script>
+</div></div></code></pre><h6 id=tags-tutorialDCNTT2017><a href=#tags-tutorialDCNTT2017 title=tags-tutorialDCNTT2017 class="anchor hidden-xs"><span class="octicon octicon-link"></span></a>tags: <code>tutorial</code>,<code>DCNTT2017</code></h6></div><div class="hidden-print unselectable dropup ui-toc"style=display:none><div class="dropdown pull-right"><a href=# title="Table of content"class="btn btn-default ui-toc-label"aria-expanded=false aria-haspopup=true data-toggle=dropdown id=tocLabel role=button><i class="fa fa-bars"></i></a><ul class="ui-toc-dropdown dropdown-menu"aria-labelledby=tocLabel id=ui-toc><div class=toc><ul class=nav><li><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a><li><a href=#1-Giới-thiệu-bài-toán title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a><li><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class=nav><li><a href=#21-Một-số-thuật-ngữ-quan-trọng title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a><li><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a><li><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a><li><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class=nav><li><a href=#241-Thêm-từ-vào-trong-Trie title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a><li><a href=#242-Tìm-kiếm-tiền-tố title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a><li><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></ul><li><a href=#25-Cài-đặt-chương-trình title="2.5.	Cài đặt chương trình">2.5.	Cài đặt chương trình</a></ul><li><a href=#3-Một-số-đề-xuất-cải-tiến title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class=nav><li><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a><li><a href=#32-Tối-ưu-số-đề-xuất title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></ul><li><a href=#-PHỤ-LỤC title=" PHỤ LỤC">PHỤ LỤC</a></ul></div><div class=toc-menu><a href=# class=expand-toggle>Expand all</a><a href=# class=back-to-top>Back to top</a><a href=# class=go-to-bottom>Go to bottom</a></div></ul></div></div><div class="hidden-print unselectable ui-affix-toc ui-toc-dropdown"style=top:17px;display:none id=ui-toc-affix data-spy=affix><div class=toc><ul class=nav><li><a href=#Gợi-ý-tự-động-hoàn-thành-sử-dụng-cấu-trúc-cây-tiền-tố title="Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố">Gợi ý tự động hoàn thành sử dụng cấu trúc cây tiền tố</a><li><a href=#1-Giới-thiệu-bài-toán title="1. Giới thiệu bài toán">1. Giới thiệu bài toán</a><li><a href=#2-Gợi-ý-tự-động-hoàn-thành-tìm-kiếm-từ-vựng-sử-dụng-cấu-trúc-cây-tiền-tố title="2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố">2. Gợi ý tự động hoàn thành tìm kiếm từ vựng sử dụng cấu trúc cây tiền tố</a><ul class=nav><li><a href=#21-Một-số-thuật-ngữ-quan-trọng title="2.1.	Một số thuật ngữ quan trọng">2.1.	Một số thuật ngữ quan trọng</a><li><a href=#22-Hướng-tiếp-cận-Brute-force-search-–-Ưu-và-nhược-điểm title="2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm">2.2.	Hướng tiếp cận Brute force search – Ưu và nhược điểm</a><li><a href=#23-Cấu-trúc-dữ-liệu-cây-tiền-tố---Trie-hay-Prefix-Tree title="2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)">2.3.	Cấu trúc dữ liệu cây tiền tố - Trie (hay Prefix Tree)</a><li><a href=#24-XÂY-DỰNG-THUẬT-TOÁN title="2.4.	XÂY DỰNG THUẬT TOÁN">2.4.	XÂY DỰNG THUẬT TOÁN</a><ul class=nav><li><a href=#241-Thêm-từ-vào-trong-Trie title="2.4.1. Thêm từ vào trong Trie">2.4.1. Thêm từ vào trong Trie</a><li><a href=#242-Tìm-kiếm-tiền-tố title="2.4.2.	Tìm kiếm tiền tố">2.4.2.	Tìm kiếm tiền tố</a><li><a href=#243-Gợi-ý-tự-động-hoàn-thành---AutoComplete title="2.4.3.	Gợi ý tự động hoàn thành - AutoComplete">2.4.3.	Gợi ý tự động hoàn thành - AutoComplete</a></ul><li><a href=#25-Cài-đặt-chương-trình title="2.5.	Cài đặt chương trình">2.5.	Cài đặt chương trình</a></ul><li><a href=#3-Một-số-đề-xuất-cải-tiến title="3. Một số đề xuất cải tiến">3. Một số đề xuất cải tiến</a><ul class=nav><li><a href=#31-Lưu-trữ-tiền-tố-cùng-với-tất-cả-các-lần-hoàn-thành-của-nó-trong-cùng-một-nút title="3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút">3.1. Lưu trữ tiền tố cùng với tất cả các lần hoàn thành của nó trong cùng một nút</a><li><a href=#32-Tối-ưu-số-đề-xuất title="3.2. Tối ưu số đề xuất">3.2. Tối ưu số đề xuất</a></ul><li><a href=#-PHỤ-LỤC title=" PHỤ LỤC">PHỤ LỤC</a></ul></div><div class=toc-menu><a href=# class=expand-toggle>Expand all</a><a href=# class=back-to-top>Back to top</a><a href=# class=go-to-bottom>Go to bottom</a></div></div><script crossorigin=anonymous integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js></script><script crossorigin=anonymous integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8="src=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js defer></script><script crossorigin=anonymous integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g="src=https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js defer></script><script>var markdown=$(".markdown-body");function smoothHashScroll(){for(var o=$("a[href^='#']").toArray(),t=0;t<o.length;t++){var n=o[t],e=$(n);n.hash&&e.on("click",function(o){var t=this.hash;$(t).length<=0||(o.preventDefault(),$("body, html").stop(!0,!0).animate({scrollTop:$(t).offset().top},100,"linear",function(){window.location.hash=t}))})}}smoothHashScroll();var toc=$(".ui-toc"),tocAffix=$(".ui-affix-toc"),tocDropdown=$(".ui-toc-dropdown");tocDropdown.click(function(o){o.stopPropagation()});var enoughForAffixToc=!0;function generateScrollspy(){$(document.body).scrollspy({target:""}),$(document.body).scrollspy("refresh"),enoughForAffixToc?(toc.hide(),tocAffix.show()):(tocAffix.hide(),toc.show()),$(document.body).scroll()}function windowResize(){var o,t=parseFloat(markdown.css("padding-right")),n=$(window).width()-(markdown.offset().left+markdown.outerWidth()-t);if(toc.css("right",n+"px"),133<=(markdown.parent().outerWidth()-markdown.outerWidth())/2){o=!0;var e=(tocAffix.outerWidth()-tocAffix.width())/2,c=markdown.offset().left+markdown.outerWidth()-e;tocAffix.css("left",c+"px")}else o=!1;o!=enoughForAffixToc&&(enoughForAffixToc=o,generateScrollspy())}function removeHash(){window.location.hash=""}$(window).resize(function(){windowResize()}),$(document).ready(function(){windowResize(),generateScrollspy()});var backtotop=$(".back-to-top"),gotobottom=$(".go-to-bottom");backtotop.click(function(o){o.preventDefault(),o.stopPropagation(),scrollToTop&&scrollToTop(),removeHash()}),gotobottom.click(function(o){o.preventDefault(),o.stopPropagation(),scrollToBottom&&scrollToBottom(),removeHash()});var toggle=$(".expand-toggle"),tocExpand=!1;function checkExpandToggle(){var o=$(".ui-toc-dropdown .toc"),t=$(".expand-toggle");tocExpand?(o.addClass("expand"),t.text("Collapse all")):(o.removeClass("expand"),t.text("Expand all"))}function scrollToTop(){$("body, html").stop(!0,!0).animate({scrollTop:0},100,"linear")}function scrollToBottom(){$("body, html").stop(!0,!0).animate({scrollTop:$(document.body)[0].scrollHeight},100,"linear")}checkExpandToggle(),toggle.click(function(o){o.preventDefault(),o.stopPropagation(),tocExpand=!tocExpand,checkExpandToggle()})</script>
